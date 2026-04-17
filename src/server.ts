@@ -1,0 +1,37 @@
+import express, { type Request, type Response } from "express";
+const app = express();
+// import config from "./config";
+import initDB, { pool } from "./config/db";
+import logger from "./middleware/logger";
+import { userRoute } from "./modules/user/user.routes";
+import dotenv from "dotenv";
+import { todosRoute } from "./modules/todos/todos.route";
+dotenv.config();
+const port = process.env.PORT || 5000;
+// perser
+app.use(express.json());
+
+app.get("/", logger, (req: Request, res: Response) => {
+  res.send("Hello Next Level Developer. i am ready!");
+});
+
+// users CRUD
+app.use("/users", userRoute);
+// todos crud
+app.use("/todos", todosRoute)
+
+
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: "page not found",
+  });
+});
+
+const runServer = async () => {
+  await initDB();
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
+};
+runServer();

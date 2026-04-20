@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const configFile = {
-  connection_str: process.env.DATABSE_URL!,
+  connection_str: process.env.DATABASE_URL!,
   port: process.env.PORT,
 };
 

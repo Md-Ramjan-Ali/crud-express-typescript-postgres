@@ -1,29 +1,16 @@
 import { pool } from "../../config/db";
 
-interface userCreateProps {
-  name: string;
-  email: string;
-  age: number;
-  phone: number;
-  address: string;
-}
-
 interface usersUpdateProps {
   id: string;
   name: string;
   email: string;
 }
 
-const createUser = async ({
-  name,
-  email,
-  age,
-  phone,
-  address,
-}: userCreateProps) => {
+const createUser = async (payload: Record<string, unknown>) => {
+  const {name, email, password, role} = payload
   const result = await pool.query(
-    `INSERT INTO users(name, email, age, phone, address) VALUES($1, $2 ,$3 , $4 , $5) RETURNING *`,
-    [name, email, age, phone, address],
+    `INSERT INTO users(name, email, password, role) VALUES($1, $2 ,$3 , $4) RETURNING *`,
+    [name, email, password, role],
   );
   return result;
 };

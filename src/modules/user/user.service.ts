@@ -8,13 +8,13 @@ interface usersUpdateProps {
 }
 
 const createUser = async (payload: Record<string, unknown>) => {
-  const {name, email, password, role} = payload
+  const {name, email, password, role,age, address} = payload
 
 const hasPassword = await bcrypt.hash(password as string, 10)
 
   const result = await pool.query(
-    `INSERT INTO users(name, email, password, role) VALUES($1, $2 ,$3 , $4) RETURNING *`,
-    [name, email, hasPassword, role],
+    `INSERT INTO users(name, email, password, role,age,address) VALUES($1, $2 ,$3 , $4,$5,$6) RETURNING *`,
+    [name, email, hasPassword, role,age,address],
   );
   return result;
 };
